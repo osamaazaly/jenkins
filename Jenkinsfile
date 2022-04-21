@@ -1,0 +1,28 @@
+pipeline {
+    agent {label 'nodejs'}
+    environment {
+        CI = 'true'
+    }
+    stages {
+        stage('Build') {
+            steps {
+				sh 'cd src'
+                sh 'npm install'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'npm test -a'
+            }
+        }
+        
+   
+        }
+        stage('Prod') {
+            steps {
+                input message: 'Deploy to production server? (Click "Proceed" to continue)'
+                sh 'npm start'
+            }
+        }
+    }
+}
